@@ -1,10 +1,10 @@
 <template>
-
+  REQUESTS
 </template>
 
 <script>
 export default {
-    name: "RequestsRecived"
+  name: "RequestsReceived"
 }
 </script>
 
