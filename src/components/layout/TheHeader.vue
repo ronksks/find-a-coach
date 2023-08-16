@@ -2,8 +2,7 @@
   <header>
     <nav>
       <h1>
-        <router-link to="/"></router-link>
-        Find a Coach
+        <router-link to="/">Find a Coach</router-link>
       </h1>
       <ul>
         <li>
@@ -16,12 +15,6 @@
     </nav>
   </header>
 </template>
-
-
-<script setup>
-
-</script>
-
 
 <style scoped>
 header {

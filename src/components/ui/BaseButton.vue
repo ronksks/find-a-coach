@@ -3,11 +3,10 @@
     <slot></slot>
   </button>
   <router-link v-else :to="to" :class="mode">
-    <slot>
-
-    </slot>
+    <slot></slot>
   </router-link>
 </template>
+
 <script>
 export default {
   props: {
@@ -28,7 +27,6 @@ export default {
     }
   }
 }
-
 </script>
 
 <style scoped>
