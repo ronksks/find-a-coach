@@ -23,7 +23,12 @@
 </template>
 
 <script>
+import BaseCard from "@/components/ui/BaseCard.vue";
+import BaseButton from "@/components/ui/BaseButton.vue";
+import BaseBadge from "@/components/ui/BaseBadge.vue";
+
 export default {
+  components: {BaseBadge, BaseButton, BaseCard},
   props: ['id'],
   data() {
     return {
@@ -48,6 +53,7 @@ export default {
     }
   },
   created() {
+    //                                         namespace/all the coaches
     this.selectedCoach = this.$store.getters['coaches/coaches'].find(
       (coach) => coach.id === this.id
     );
