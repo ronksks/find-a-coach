@@ -44,6 +44,7 @@ import BaseButton from "@/components/ui/BaseButton.vue";
 
 export default {
   components: {BaseButton},
+  emits: ['save-data'],
   data() {
     return {
       firstName: '',
@@ -62,7 +63,7 @@ export default {
         rate: this.rate,
         areas: this.areas
       }
-      console.log(formData)
+      this.$emit('save-data', formData)
     }
   }
 }
