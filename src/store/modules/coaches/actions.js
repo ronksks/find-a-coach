@@ -1,48 +1,59 @@
 export default {
-    async registerCoach(contex, data) {
-        const userId = contex.rootGetters.userId
-
+    async registerCoach(context, data) {
+        const userId = context.rootGetters.userId;
         const coachData = {
-            // id: new Date().toISOString(),
-            // id: contex.rootGetters.userId,
             firstName: data.first,
             lastName: data.last,
             description: data.desc,
             hourlyRate: data.rate,
             areas: data.areas
+        };
+
+        const response = await fetch(
+            `https://find-a-coach-70c75-default-rtdb.firebaseio.com/coaches/${userId}.json`,
+            {
+                method: 'PUT',
+                body: JSON.stringify(coachData)
+            }
+        );
+
+        const responseData = await response.json();
+
+        if (!response.ok) {
+            const error = new Error(responseData.message || 'Failed to register!');
+            throw error;
         }
-        const response = await fetch(`https://find-a-coach-70c75-default-rtdb.firebaseio.com/coaches/${userId}.json`, {
-            method: 'PUT',
-            body: JSON.stringify(coachData)
-        })
-        // const responsData = await response.json()
-        if (response.ok) {
-            //error
-        }
-        contex.commit('registerCoach', {
+
+        context.commit('registerCoach', {
             ...coachData,
             id: userId
-        })
-
+        });
     },
-    async loadCoaches(contex) {
-        const response = await fetch(`https://find-a-coach-70c75-default-rtdb.firebaseio.com/coaches.json`)
-        const responseData = await response.json()
-        if (response.ok) {
-            //error
+    async loadCoaches(context) {
+        const response = await fetch(
+            `https://find-a-coach-70c75-default-rtdb.firebaseio.com/coaches.json`
+        );
+        const responseData = await response.json();
+
+        if (!response.ok) {
+            const error = new Error(responseData.message || 'Failed to fetch!');
+            throw error;
         }
-        const coaches = []
+
+        const coaches = [];
+
         for (const key in responseData) {
             const coach = {
-                is: key,
+                id: key,
                 firstName: responseData[key].firstName,
                 lastName: responseData[key].lastName,
                 description: responseData[key].description,
                 hourlyRate: responseData[key].hourlyRate,
                 areas: responseData[key].areas
-            }
-            coaches.push(coach)
+            };
+            coaches.push(coach);
         }
-        contex.commit('setCoaches', coaches)
+
+        context.commit('setCoaches', coaches);
     }
 };

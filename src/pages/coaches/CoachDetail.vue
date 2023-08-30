@@ -53,7 +53,6 @@ export default {
     }
   },
   created() {
-    //                                         namespace/all the coaches
     this.selectedCoach = this.$store.getters['coaches/coaches'].find(
       (coach) => coach.id === this.id
     );
