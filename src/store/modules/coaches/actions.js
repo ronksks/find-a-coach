@@ -1,4 +1,5 @@
 export default {
+    // Action to register a new coach
     async registerCoach(context, data) {
         const userId = context.rootGetters.userId;
         const coachData = {
@@ -9,6 +10,7 @@ export default {
             areas: data.areas
         };
 
+        // Sending a PUT request to update coach data on Firebase
         const response = await fetch(
             `https://find-a-coach-70c75-default-rtdb.firebaseio.com/coaches/${userId}.json`,
             {
@@ -19,22 +21,32 @@ export default {
 
         const responseData = await response.json();
 
+        // Handling errors if the response is not successful
         if (!response.ok) {
             const error = new Error(responseData.message || 'Failed to register!');
             throw error;
         }
 
+        // Committing the registered coach's data to the store
         context.commit('registerCoach', {
             ...coachData,
             id: userId
         });
     },
-    async loadCoaches(context) {
+    // Action to load coaches from the Firebase database
+    async loadCoaches(context, payload) {
+        // Checking if data should be refreshed based on payload and store state
+        if (!payload.forceRefresh && !context.getters.shouldUpdate) {
+            return;
+        }
+
+        // Fetching coach data from Firebase
         const response = await fetch(
             `https://find-a-coach-70c75-default-rtdb.firebaseio.com/coaches.json`
         );
         const responseData = await response.json();
 
+        // Handling errors if the response is not successful
         if (!response.ok) {
             const error = new Error(responseData.message || 'Failed to fetch!');
             throw error;
@@ -42,6 +54,7 @@ export default {
 
         const coaches = [];
 
+        // Iterating through the received data to create coach objects
         for (const key in responseData) {
             const coach = {
                 id: key,
@@ -54,6 +67,8 @@ export default {
             coaches.push(coach);
         }
 
+        // Committing the fetched coach data to the store and updating timestamp
         context.commit('setCoaches', coaches);
+        context.commit('setFetchTimeStamp');
     }
 };

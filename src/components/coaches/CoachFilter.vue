@@ -1,16 +1,18 @@
 <template>
+  <!-- Component for filtering coaches based on categories -->
   <base-card>
     <h2>Find Your Coach</h2>
+    <!-- Checkbox filters for frontend, backend, and career coaching -->
     <span class="filter-option">
-      <input type="checkbox" id="frontend" checked @change="setFilter" />
+      <input type="checkbox" id="frontend" checked @change="setFilter"/>
       <label for="frontend">Frontend</label>
     </span>
     <span class="filter-option">
-      <input type="checkbox" id="backend" checked @change="setFilter" />
+      <input type="checkbox" id="backend" checked @change="setFilter"/>
       <label for="backend">Backend</label>
     </span>
     <span class="filter-option">
-      <input type="checkbox" id="career" checked @change="setFilter" />
+      <input type="checkbox" id="career" checked @change="setFilter"/>
       <label for="career">Career</label>
     </span>
   </base-card>
@@ -20,8 +22,8 @@
 import BaseCard from "@/components/ui/BaseCard.vue";
 
 export default {
-  components: {BaseCard},
-  emits: ['change-filter'],
+  components: {BaseCard}, // Importing and using the BaseCard component
+  emits: ['change-filter'], // Emitting an event when filters change
   data() {
     return {
       filters: {
@@ -32,6 +34,7 @@ export default {
     };
   },
   methods: {
+    // Method to update and emit filter changes
     setFilter(event) {
       const inputId = event.target.id;
       const isActive = event.target.checked;
@@ -39,8 +42,8 @@ export default {
         ...this.filters,
         [inputId]: isActive
       };
-      this.filters = updatedFilters;
-      this.$emit('change-filter', updatedFilters);
+      this.filters = updatedFilters; // Updating the filters
+      this.$emit('change-filter', updatedFilters); // Emitting the updated filters
     }
   }
 }
