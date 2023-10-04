@@ -17,13 +17,13 @@
         </div>
         <ul v-else-if="hasCoaches">
           <coach-item
-              v-for="coach in filteredCoaches"
-              :key="coach.id"
-              :id="coach.id"
-              :first-name="coach.firstName"
-              :last-name="coach.lastName"
-              :rate="coach.hourlyRate"
-              :areas="coach.areas"
+            v-for="coach in filteredCoaches"
+            :key="coach.id"
+            :id="coach.id"
+            :first-name="coach.firstName"
+            :last-name="coach.lastName"
+            :rate="coach.hourlyRate"
+            :areas="coach.areas"
           ></coach-item>
         </ul>
         <h3 v-else>No coaches found.</h3>
@@ -35,17 +35,9 @@
 <script>
 import CoachItem from '../../components/coaches/CoachItem.vue';
 import CoachFilter from '../../components/coaches/CoachFilter.vue';
-import BaseSpinner from "@/components/ui/BaseSpinner.vue";
-import BaseButton from "@/components/ui/BaseButton.vue";
-import BaseCard from "@/components/ui/BaseCard.vue";
-import BaseDialog from "@/components/ui/BaseDialog.vue";
 
 export default {
   components: {
-    BaseDialog,
-    BaseCard,
-    BaseButton,
-    BaseSpinner,
     CoachItem,
     CoachFilter,
   },
@@ -93,7 +85,9 @@ export default {
     async loadCoaches(refresh = false) {
       this.isLoading = true;
       try {
-        await this.$store.dispatch('coaches/loadCoaches', {forceRefresh: refresh});
+        await this.$store.dispatch('coaches/loadCoaches', {
+          forceRefresh: refresh,
+        });
       } catch (error) {
         this.error = error.message || 'Something went wrong!';
       }
@@ -101,7 +95,7 @@ export default {
     },
     handleError() {
       this.error = null;
-    }
+    },
   },
 };
 </script>

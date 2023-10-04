@@ -25,12 +25,7 @@
 </template>
 
 <script>
-import BaseCard from "@/components/ui/BaseCard.vue";
-import BaseButton from "@/components/ui/BaseButton.vue";
-import BaseBadge from "@/components/ui/BaseBadge.vue";
-
 export default {
-  components: {BaseBadge, BaseButton, BaseCard},
   props: ['id'],
   data() {
     return {
@@ -52,11 +47,11 @@ export default {
     },
     contactLink() {
       return this.$route.path + '/' + this.id + '/contact';
-    }
+    },
   },
   created() {
     this.selectedCoach = this.$store.getters['coaches/coaches'].find(
-        (coach) => coach.id === this.id
+      (coach) => coach.id === this.id
     );
   },
 };

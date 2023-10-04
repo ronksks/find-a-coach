@@ -13,7 +13,7 @@ import TheHeader from './components/layout/TheHeader.vue';
 export default {
   components: {
     TheHeader
-  }
+  }  
 }
 </script>
 
@@ -43,11 +43,11 @@ body {
 }
 
 .route-enter-active {
-  transition: all .3s ease-out;
+  transition: all 0.3s ease-out;
 }
 
 .route-leave-active {
-  transition: all .3s ease-in
+  transition: all 0.3s ease-in;
 }
 
 .route-enter-to,
@@ -55,5 +55,4 @@ body {
   opacity: 1;
   transform: translateY(0);
 }
-
 </style>

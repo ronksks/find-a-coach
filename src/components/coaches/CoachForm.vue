@@ -1,7 +1,5 @@
 <template>
-  <!-- Form for coach registration -->
   <form @submit.prevent="submitForm">
-    <!-- First Name input -->
     <div class="form-control" :class="{invalid: !firstName.isValid}">
       <label for="firstname">Firstname</label>
       <input
@@ -12,7 +10,6 @@
       />
       <p v-if="!firstName.isValid">Firstname must not be empty.</p>
     </div>
-    <!-- Last Name input -->
     <div class="form-control" :class="{invalid: !lastName.isValid}">
       <label for="lastname">Lastname</label>
       <input
@@ -23,7 +20,6 @@
       />
       <p v-if="!lastName.isValid">Lastname must not be empty.</p>
     </div>
-    <!-- Description input -->
     <div class="form-control" :class="{invalid: !description.isValid}">
       <label for="description">Description</label>
       <textarea
@@ -34,13 +30,11 @@
       ></textarea>
       <p v-if="!description.isValid">Description must not be empty.</p>
     </div>
-    <!-- Hourly Rate input -->
     <div class="form-control" :class="{invalid: !rate.isValid}">
       <label for="rate">Hourly Rate</label>
       <input type="number" id="rate" v-model.number="rate.val" @blur="clearValidity('rate')" />
       <p v-if="!rate.isValid">Rate must be greater than 0.</p>
     </div>
-    <!-- Areas of Expertise checkboxes -->
     <div class="form-control" :class="{invalid: !areas.isValid}">
       <h3>Areas of Expertise</h3>
       <div>
@@ -75,19 +69,14 @@
       </div>
       <p v-if="!areas.isValid">At least one expertise must be selected.</p>
     </div>
-    <!-- Form validation message -->
     <p v-if="!formIsValid">Please fix the above errors and submit again.</p>
-    <!-- Submit button -->
     <base-button>Register</base-button>
   </form>
 </template>
 
 <script>
-import BaseButton from "@/components/ui/BaseButton.vue";
-
 export default {
-  components: { BaseButton }, // Importing and using the BaseButton component
-  emits: ['save-data'], // Emitting an event to save registration data
+  emits: ['save-data'],
   data() {
     return {
       firstName: {
@@ -114,11 +103,9 @@ export default {
     };
   },
   methods: {
-    // Method to clear input validity status
     clearValidity(input) {
       this[input].isValid = true;
     },
-    // Method to validate the form
     validateForm() {
       this.formIsValid = true;
       if (this.firstName.val === '') {
@@ -133,7 +120,7 @@ export default {
         this.description.isValid = false;
         this.formIsValid = false;
       }
-      if (!this.rate.val || this.rate.val <= 0) {
+      if (!this.rate.val || this.rate.val < 0) {
         this.rate.isValid = false;
         this.formIsValid = false;
       }
@@ -142,7 +129,6 @@ export default {
         this.formIsValid = false;
       }
     },
-    // Method to submit the form
     submitForm() {
       this.validateForm();
 
@@ -158,14 +144,13 @@ export default {
         areas: this.areas.val,
       };
 
-      this.$emit('save-data', formData); // Emitting the data to save
+      this.$emit('save-data', formData);
     },
   },
 };
 </script>
 
 <style scoped>
-/* Styling for the form controls */
 .form-control {
   margin: 0.5rem 0;
 }
@@ -212,7 +197,6 @@ h3 {
   font-size: 1rem;
 }
 
-/* Styling for invalid inputs */
 .invalid label {
   color: red;
 }

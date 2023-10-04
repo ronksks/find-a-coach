@@ -109,7 +109,7 @@ menu {
 }
 
 .dialog-leave-active {
-  transition: all 0.2s ease-in;
+  transition: all 0.3s ease-in;
 }
 
 .dialog-enter-to,

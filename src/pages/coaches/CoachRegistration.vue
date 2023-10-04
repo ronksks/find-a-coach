@@ -9,11 +9,9 @@
 
 <script>
 import CoachForm from '../../components/coaches/CoachForm.vue';
-import BaseCard from "@/components/ui/BaseCard.vue";
 
 export default {
   components: {
-    BaseCard,
     CoachForm,
   },
   methods: {

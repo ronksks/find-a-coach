@@ -11,10 +11,10 @@
         <base-spinner v-if="isLoading"></base-spinner>
         <ul v-else-if="hasRequests && !isLoading">
           <request-item
-              v-for="req in receivedRequests"
-              :key="req.id"
-              :email="req.userEmail"
-              :message="req.message"
+            v-for="req in receivedRequests"
+            :key="req.id"
+            :email="req.userEmail"
+            :message="req.message"
           ></request-item>
         </ul>
         <h3 v-else>You haven't received any requests yet!</h3>
@@ -25,20 +25,16 @@
 
 <script>
 import RequestItem from '../../components/requests/RequestItem.vue';
-import BaseCard from "@/components/ui/BaseCard.vue";
-import BaseDialog from "@/components/ui/BaseDialog.vue";
 
 export default {
   components: {
-    BaseDialog,
-    BaseCard,
     RequestItem,
   },
   data() {
     return {
       isLoading: false,
       error: null,
-    }
+    };
   },
   computed: {
     receivedRequests() {
@@ -49,24 +45,21 @@ export default {
     },
   },
   created() {
-    this.loadRequests()
+    this.loadRequests();
   },
   methods: {
     async loadRequests() {
-      this.isLoading = true
+      this.isLoading = true;
       try {
-
-        await this.$store.dispatch('requests/fetchRequests')
+        await this.$store.dispatch('requests/fetchRequests');
       } catch (error) {
-        this.error = error.message || 'Somthing Failed'
+        this.error = error.message || 'Something failed!';
       }
-      this.isLoading = false
-
+      this.isLoading = false;
     },
     handleError() {
-      this.error = null
-
-    }
+      this.error = null;
+    },
   },
 };
 </script>
@@ -87,6 +80,3 @@ h3 {
   text-align: center;
 }
 </style>
-<script setup>
-import BaseSpinner from "@/components/ui/BaseSpinner.vue";
-</script>
