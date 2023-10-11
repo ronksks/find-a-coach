@@ -13,7 +13,7 @@
           <base-button link to="/auth" v-if="!isLoggedIn">Login</base-button>
 
           <!--show this button if we are Not logged in and Not a coach and Not loading-->
-          <base-button v-if="!isLoggedIn && !isCoach && !isLoading" link to="/register">Register as Coach</base-button>
+          <base-button v-if="isLoggedIn && !isCoach && !isLoading" link to="/register">Register as Coach</base-button>
 
         </div>
         <div v-if="isLoading">
