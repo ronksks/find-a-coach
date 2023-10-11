@@ -1,41 +1,61 @@
 <script>
 import BaseButton from "@/components/ui/BaseButton.vue";
 import BaseCard from "@/components/ui/BaseCard.vue";
+import BaseDialog from "@/components/ui/BaseDialog.vue";
+import BaseSpinner from "@/components/ui/BaseSpinner.vue";
+import {handleError} from "vue";
 
 export default {
+  components: {BaseSpinner, BaseDialog},
   data() {
     return {
       email: '',
       password: '',
       formIsValid: true,
-      mode: "login"
+      mode: "login",
+      isLoading: false,
+      error: null
     }
   },
-  computed:{
-    submitButtonCapture(){
-      if(this.mode ==='login'){
+  computed: {
+    submitButtonCapture() {
+      if (this.mode === 'login') {
         return 'Login'
-      }else{
+      } else {
         return 'Signup'
       }
     },
-    switchModeButtonCaption(){
-      if(this.mode ==='login'){
+    switchModeButtonCaption() {
+      if (this.mode === 'login') {
         return 'Signup instead'
-      }else{
+      } else {
         return 'Login instead'
       }
     }
   },
   methods: {
-    submitForm() {
+    async submitForm() {
       this.formIsValid = true
       if (this.email === '' || !this.email.includes('@')
           || this.password.length < 6) {
         this.formIsValid = false
         return
       }
-      //send httpd request
+      this.isLoading = true
+      try {
+
+        if (this.mode === 'login') {
+//.....
+        } else {
+          await this.$store.dispatch('signup', {
+            email: this.email,
+            password: this.password
+          })
+        }
+      } catch (err) {
+        this.error = err.message || 'Failed to authenticate, try later.'
+      }
+      this.isLoading = false
     },
     switchAuthMode() {
       if (this.mode === 'login') {
@@ -44,6 +64,9 @@ export default {
         this.mode = 'login'
       }
     },
+    handleError() {
+      this.error = null
+    },
   }
 }
 
@@ -51,23 +74,33 @@ export default {
 </script>
 
 <template>
-  <base-card>
+  <div>
+    <base-dialog :show="!!error" title="An error occurred" @close="handleError">
+      <p>{{ error }}</p>
+    </base-dialog>
+    <base-dialog :show="isLoading" title="Authenticating..." fixed>
 
-    <form @submit.prevent="submitForm">
-      <div class="form-control">
-        <label for="email">E-Mail</label>
-        <input type="email" id="email" v-model.trim="email"/>
-      </div>
-      <p v-if="!formIsValid">Please anter a valid email and password (must be at leach 6 char long)</p>
-      <div class="form-control">
-        <label for="password">Password</label>
-        <input type="password" id="password" v-model="password">
-      </div>
-      <base-button>{{submitButtonCapture}}</base-button>
-      <base-button type="button" mode="flat" @click="switchAuthMode">{{ switchModeButtonCaption}}</base-button>
+      <base-spinner></base-spinner>
+    </base-dialog>
+    <base-card>
 
-    </form>
-  </base-card>
+      <form @submit.prevent="submitForm">
+        <div class="form-control">
+          <label for="email">E-Mail</label>
+          <input type="email" id="email" v-model.trim="email"/>
+        </div>
+        <p v-if="!formIsValid">Please anter a valid email and password (must be at leach 6 char long)</p>
+        <div class="form-control">
+          <label for="password">Password</label>
+          <input type="password" id="password" v-model="password">
+        </div>
+        <base-button>{{ submitButtonCapture }}</base-button>
+        <base-button type="button" mode="flat" @click="switchAuthMode">{{ switchModeButtonCaption }}</base-button>
+
+      </form>
+    </base-card>
+  </div>
+
 </template>
 
 <style scoped>
