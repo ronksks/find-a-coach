@@ -8,6 +8,9 @@ export default {
     // returns true is there is a token
     isAuthenticated(state) {
         return !!state.token
+    },
+    didAutoLogout(state){
+        return state.didAutoLogout
     }
 
 }
