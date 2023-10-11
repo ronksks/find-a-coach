@@ -10,20 +10,24 @@
       <base-card>
         <div class="controls">
           <base-button mode="outline" @click="loadCoaches(true)">Refresh</base-button>
-          <base-button v-if="!isCoach && !isLoading" link to="/register">Register as Coach</base-button>
+          <base-button link to="/auth" v-if="!isLoggedIn">Login</base-button>
+
+          <!--show this button if we are Not logged in and Not a coach and Not loading-->
+          <base-button v-if="!isLoggedIn && !isCoach && !isLoading" link to="/register">Register as Coach</base-button>
+
         </div>
         <div v-if="isLoading">
           <base-spinner></base-spinner>
         </div>
         <ul v-else-if="hasCoaches">
           <coach-item
-            v-for="coach in filteredCoaches"
-            :key="coach.id"
-            :id="coach.id"
-            :first-name="coach.firstName"
-            :last-name="coach.lastName"
-            :rate="coach.hourlyRate"
-            :areas="coach.areas"
+              v-for="coach in filteredCoaches"
+              :key="coach.id"
+              :id="coach.id"
+              :first-name="coach.firstName"
+              :last-name="coach.lastName"
+              :rate="coach.hourlyRate"
+              :areas="coach.areas"
           ></coach-item>
         </ul>
         <h3 v-else>No coaches found.</h3>
@@ -35,9 +39,11 @@
 <script>
 import CoachItem from '../../components/coaches/CoachItem.vue';
 import CoachFilter from '../../components/coaches/CoachFilter.vue';
+import BaseButton from "@/components/ui/BaseButton.vue";
 
 export default {
   components: {
+    BaseButton,
     CoachItem,
     CoachFilter,
   },
@@ -53,6 +59,9 @@ export default {
     };
   },
   computed: {
+    isLoggedIn() {
+      return this.$store.getters.isAuthenticated;
+    },
     isCoach() {
       return this.$store.getters['coaches/isCoach'];
     },
